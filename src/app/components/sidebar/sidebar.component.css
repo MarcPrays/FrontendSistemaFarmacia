@@ -1,0 +1,156 @@
+
+.sidebar {
+  width: 250px;
+  background-color: #3a3a3a;
+  color: #ffffff;
+  transition: width 0.3s ease;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.sidebar.closed {
+  width: 60px;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #4a4a4a;
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
+  margin-bottom: 15px;
+}
+
+.hamburger-icon {
+  display: block;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #5c5c5c;
+  position: relative;
+}
+
+.avatar-circle::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+  background-color: #ff6b6b;
+  border-radius: 50%;
+  border: 2px solid #3a3a3a;
+}
+
+.brand-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.sidebar-nav {
+  padding: 20px 0;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  margin-bottom: 5px;
+}
+
+.menu-item-content {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.menu-item-content:hover {
+  background-color: #4a4a4a;
+}
+
+.menu-icon {
+  font-size: 20px;
+  width: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.menu-text {
+  flex: 1;
+  margin-left: 15px;
+  font-size: 14px;
+}
+
+.expand-icon {
+  font-size: 12px;
+  color: #888;
+}
+
+.submenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #2a2a2a;
+}
+
+.submenu-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px 10px 60px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.2s;
+}
+
+.submenu-item:hover {
+  background-color: #3a3a3a;
+}
+
+.submenu-icon {
+  font-size: 16px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.submenu-text {
+  margin-left: 12px;
+  color: #b0b0b0;
+}
+
+.sidebar.closed .menu-text,
+.sidebar.closed .expand-icon,
+.sidebar.closed .brand-title,
+.sidebar.closed .submenu {
+  display: none;
+}

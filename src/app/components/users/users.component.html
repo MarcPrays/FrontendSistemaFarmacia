@@ -1,0 +1,49 @@
+<div class="users-container">
+  <div class="header">
+    <h2 class="title">Eckige Kesselplatte V18</h2>
+    <span class="language">Lang: DE</span>
+  </div>
+
+  <div class="users-content">
+    <h1 class="users-title">Users List</h1>
+
+    <div class="table-container">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>Avatar</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (user of users; track user) {
+            <tr>
+              <td>
+                <div class="avatar-cell">
+                  <div class="avatar-img">{{ user.avatar }}</div>
+                </div>
+              </td>
+
+              <td>{{ user.fullName }}</td>
+
+              <td>
+                <a [href]="'mailto:' + user.email" class="email-link">
+                  {{ user.email }}
+                </a>
+              </td>
+
+              <td>{{ user.phone }}</td>
+
+              <td>{{ user.location }}</td>
+            </tr>
+          }
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>
