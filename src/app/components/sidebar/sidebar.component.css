@@ -1,8 +1,7 @@
-
 .sidebar {
   width: 250px;
-  background-color: #3a3a3a;
-  color: #ffffff;
+  background: var(--sidebar-dark);
+  color: var(--text-light);
   transition: width 0.3s ease;
   position: fixed;
   left: 0;
@@ -10,6 +9,10 @@
   bottom: 0;
   overflow-y: auto;
   z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 2px 0 10px var(--shadow-md);
 }
 
 .sidebar.closed {
@@ -18,17 +21,22 @@
 
 .sidebar-header {
   padding: 20px;
-  border-bottom: 1px solid #4a4a4a;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .toggle-btn {
   background: transparent;
   border: none;
-  color: #ffffff;
+  color: var(--text-light);
   font-size: 24px;
   cursor: pointer;
   padding: 5px;
   margin-bottom: 15px;
+  transition: color 0.2s;
+}
+
+.toggle-btn:hover {
+  color: var(--accent-blue-light);
 }
 
 .hamburger-icon {
@@ -41,35 +49,33 @@
   gap: 12px;
 }
 
-.avatar {
+.logo-icon {
+  font-size: 32px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.avatar-circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #5c5c5c;
-  position: relative;
-}
-
-.avatar-circle::after {
-  content: '';
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 10px;
-  height: 10px;
-  background-color: #ff6b6b;
-  border-radius: 50%;
-  border: 2px solid #3a3a3a;
+.brand-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .brand-title {
   font-size: 16px;
   font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-light);
+}
+
+.brand-subtitle {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .sidebar-nav {
@@ -91,11 +97,22 @@
   align-items: center;
   padding: 12px 20px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
+  border-radius: 0 25px 25px 0;
+  margin-right: 10px;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .menu-item-content:hover {
-  background-color: #4a4a4a;
+  background-color: var(--sidebar-hover);
+  color: var(--text-light);
+}
+
+.menu-item-content.active {
+  background-color: var(--sidebar-hover);
+  color: var(--text-light);
+  font-weight: 600;
+  border-left: 3px solid var(--accent-blue-light);
 }
 
 .menu-icon {
@@ -113,14 +130,14 @@
 
 .expand-icon {
   font-size: 12px;
-  color: #888;
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .submenu {
   list-style: none;
   padding: 0;
   margin: 0;
-  background-color: #2a2a2a;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .submenu-item {
@@ -130,10 +147,12 @@
   cursor: pointer;
   font-size: 13px;
   transition: background-color 0.2s;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .submenu-item:hover {
-  background-color: #3a3a3a;
+  background-color: var(--sidebar-hover);
+  color: var(--text-light);
 }
 
 .submenu-icon {
@@ -145,12 +164,50 @@
 
 .submenu-text {
   margin-left: 12px;
-  color: #b0b0b0;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logout-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-light);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: var(--sidebar-hover);
+  border-color: var(--accent-blue-light);
+}
+
+.logout-icon {
+  font-size: 18px;
+}
+
+.logout-text {
+  flex: 1;
+  text-align: left;
 }
 
 .sidebar.closed .menu-text,
 .sidebar.closed .expand-icon,
 .sidebar.closed .brand-title,
+.sidebar.closed .brand-subtitle,
+.sidebar.closed .brand-info,
+.sidebar.closed .logout-text,
 .sidebar.closed .submenu {
   display: none;
 }

@@ -1,11 +1,10 @@
-export interface User {
+export interface Client {
   id: number;
-  role_id: number;
   first_name: string;
   last_name: string;
+  phone: string;
   email: string;
-  password?: string;
   status: number;
   fullName?: string;
-  avatar?: string;
 }
+

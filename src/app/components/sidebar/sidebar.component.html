@@ -6,50 +6,41 @@
 
     @if (isOpen) {
       <div class="brand">
-        <div class="avatar">
-          <div class="avatar-circle"></div>
+        <div class="logo-icon">💊</div>
+        <div class="brand-info">
+          <span class="brand-title">Sistema Farmacia</span>
+          <span class="brand-subtitle">Panel</span>
         </div>
-        <span class="brand-title">Brand Title</span>
       </div>
     }
   </div>
 
   <nav class="sidebar-nav">
     <ul class="menu-list">
-
-      @for (item of menuItems; track item) {
+      @for (item of menuItems; track item.name) {
         <li class="menu-item">
-
-          <div class="menu-item-content" (click)="toggleMenu(item)">
+          <div 
+            class="menu-item-content" 
+            [class.active]="isActiveRoute(item.route)"
+            (click)="navigate(item)">
             <span class="menu-icon">{{ item.icon }}</span>
-
             @if (isOpen) {
               <span class="menu-text">{{ item.name }}</span>
             }
-
-            @if (item.children && isOpen) {
-              <span class="expand-icon">
-                {{ item.expanded ? '▼' : '▶' }}
-              </span>
-            }
           </div>
-
-          @if (item.children && item.expanded && isOpen) {
-            <ul class="submenu">
-
-              @for (child of item.children; track child) {
-                <li class="submenu-item">
-                  <span class="submenu-icon">{{ child.icon }}</span>
-                  <span class="submenu-text">{{ child.name }}</span>
-                </li>
-              }
-
-            </ul>
-          }
-
         </li>
       }
-
     </ul>
   </nav>
+
+  @if (isOpen) {
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <span class="logout-icon">→</span>
+        <span class="logout-text">Salir</span>
+      </button>
+    </div>
+  }
 </div>
+
+

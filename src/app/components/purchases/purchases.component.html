@@ -1,0 +1,110 @@
+<div class="purchases-container">
+  <div class="purchases-header">
+    <h1 class="page-title">Gestión de Compras</h1>
+    <button class="new-purchase-btn" (click)="newPurchase()">
+      <span>+</span> Nueva Compra
+    </button>
+  </div>
+
+  @if (showNewPurchaseForm) {
+    <div class="new-purchase-form">
+      <h2>Nueva Compra</h2>
+      
+      <div class="form-group">
+        <label>Proveedor</label>
+        <select [(ngModel)]="currentPurchase.supplier_id" class="form-control">
+          <option [value]="null">Seleccione un proveedor</option>
+          @for (supplier of suppliers; track supplier.id) {
+            <option [value]="supplier.id">{{ supplier.name }}</option>
+          }
+        </select>
+      </div>
+
+      <button (click)="addProductToPurchase()" class="add-product-btn">+ Agregar Producto</button>
+
+      <div class="purchase-details">
+        <h3>Detalles de la Compra</h3>
+        <table class="details-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Fecha Venc.</th>
+              <th>Cantidad</th>
+              <th>Precio Unit.</th>
+              <th>Subtotal</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (detail of currentPurchase.details; track $index) {
+              <tr>
+                <td>{{ detail.productName }}</td>
+                <td>{{ detail.expirationDate }}</td>
+                <td>
+                  <input 
+                    type="number" 
+                    [value]="detail.quantity"
+                    (change)="updateQuantity($index, +$any($event.target).value)"
+                    min="1"
+                    class="quantity-input">
+                </td>
+                <td>${{ detail.unit_price.toFixed(2) }}</td>
+                <td>${{ detail.subtotal.toFixed(2) }}</td>
+                <td>
+                  <button (click)="removeProductFromPurchase($index)" class="remove-btn">🗑️</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <div class="purchase-total">
+          <div class="total-row">
+            <span class="total-label">TOTAL:</span>
+            <span class="total-value">${{ currentPurchase.total.toFixed(2) }}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Método de Pago</label>
+          <select [(ngModel)]="currentPurchase.payment_method" class="form-control">
+            <option value="efectivo">Efectivo</option>
+            <option value="transferencia">Transferencia</option>
+            <option value="credito">Crédito</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button (click)="registerPurchase()" class="save-btn">Registrar Compra</button>
+          <button (click)="showNewPurchaseForm = false" class="cancel-btn">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="purchases-history">
+    <h2>Historial de Compras</h2>
+    <table class="purchases-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Proveedor</th>
+          <th>Fecha</th>
+          <th>Total</th>
+          <th>Método de Pago</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (purchase of purchases; track purchase.id) {
+          <tr>
+            <td>#{{ purchase.id }}</td>
+            <td>{{ purchase.supplier?.name }}</td>
+            <td>{{ purchase.purchase_date | date:'short' }}</td>
+            <td class="amount">${{ purchase.total.toFixed(2) }}</td>
+            <td>{{ purchase.payment_method }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

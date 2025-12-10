@@ -1,0 +1,126 @@
+<div class="products-container">
+  <div class="products-header">
+    <h1 class="page-title">Gestión de Productos</h1>
+    <div class="user-info">
+      <div class="user-avatar">👤</div>
+      <div class="user-details">
+        <span class="user-name">Admin</span>
+        <span class="user-role">Administrador</span>
+      </div>
+      <span class="dropdown-icon">▼</span>
+    </div>
+  </div>
+
+  <div class="search-filters">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input 
+        type="text" 
+        placeholder="Buscar productos por nombre, código o categoría..." 
+        [(ngModel)]="searchTerm"
+        (input)="searchProducts()"
+        class="search-input">
+    </div>
+    <div class="filter-buttons">
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedFilter === 'todos'"
+        (click)="filterProducts('todos')">
+        Todos
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedFilter === 'stock-bajo'"
+        (click)="filterProducts('stock-bajo')">
+        Stock Bajo
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedFilter === 'sin-stock'"
+        (click)="filterProducts('sin-stock')">
+        Sin Stock
+      </button>
+      <button 
+        class="filter-btn" 
+        [class.active]="selectedFilter === 'activos'"
+        (click)="filterProducts('activos')">
+        Activos
+      </button>
+    </div>
+  </div>
+
+  <div class="stats-summary">
+    <span class="stat-item">{{ stats.total }} Total</span>
+    <span class="stat-item warning">{{ stats.lowStock }} Stock Bajo</span>
+    <span class="stat-item danger">{{ stats.outOfStock }} Sin Stock</span>
+    <button class="add-product-btn" (click)="addProduct()">
+      <span>+</span> Nuevo Producto
+    </button>
+  </div>
+
+  <div class="products-table-container">
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>IMAGEN</th>
+          <th>PRODUCTO</th>
+          <th>CATEGORÍA</th>
+          <th>PRESENTACIÓN</th>
+          <th>PRECIO</th>
+          <th>STOCK</th>
+          <th>ESTADO</th>
+          <th>ACCIONES</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of filteredProducts; track product.id) {
+          <tr>
+            <td>
+              <div class="product-image">
+                @if (product.image) {
+                  <img [src]="product.image" [alt]="product.name">
+                } @else {
+                  <span class="image-placeholder">💊</span>
+                }
+              </div>
+            </td>
+            <td>
+              <div class="product-info">
+                <div class="product-name">{{ product.name }}</div>
+                <div class="product-code">{{ product.concentration }} • {{ product.presentation }}</div>
+              </div>
+            </td>
+            <td>
+              <span class="category-badge">{{ product.category?.name || 'Sin categoría' }}</span>
+            </td>
+            <td>{{ product.presentation }}</td>
+            <td class="price-cell">${{ getProductPrice(product.id).toFixed(2) }}</td>
+            <td>
+              <div class="stock-info">
+                <span class="stock-value">{{ getProductStock(product.id) }}</span>
+                <span class="stock-status" [class]="getStockStatus(product.id).class">
+                  {{ getStockStatus(product.id).status }}
+                </span>
+              </div>
+            </td>
+            <td>
+              <span class="status-badge" [class.active]="product.status === 1">
+                {{ product.status === 1 ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button class="action-btn edit" (click)="editProduct(product)" title="Editar">
+                  ✏️
+                </button>
+                <button class="action-btn delete" (click)="deleteProduct(product)" title="Eliminar">
+                  🗑️
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

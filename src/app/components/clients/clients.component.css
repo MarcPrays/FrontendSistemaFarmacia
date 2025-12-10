@@ -1,10 +1,10 @@
-.users-container {
+.clients-container {
   padding: 30px;
   background-color: var(--bg-primary);
   min-height: 100vh;
 }
 
-.users-header {
+.clients-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -49,6 +49,7 @@
   align-items: center;
   justify-content: center;
   font-size: 20px;
+  color: var(--text-light);
 }
 
 .user-details {
@@ -83,7 +84,7 @@
   background: var(--bg-card);
   padding: 20px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px var(--shadow-md);
+  box-shadow: 0 2px 8px var(--shadow-sm);
   min-width: 150px;
   border: 1px solid var(--border-color);
   transition: transform 0.2s, box-shadow 0.2s;
@@ -117,9 +118,9 @@
 .add-btn {
   margin-left: auto;
   padding: 12px 24px;
-  background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-light) 100%);
+  background: var(--accent-blue);
   color: var(--text-light);
-  border: 1px solid var(--border-color);
+  border: none;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
@@ -188,17 +189,17 @@
   border: 1px solid var(--border-color);
 }
 
-.users-table {
+.clients-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.users-table thead {
+.clients-table thead {
   background: var(--header-blue);
   color: var(--text-primary);
 }
 
-.users-table th {
+.clients-table th {
   padding: 16px;
   text-align: left;
   font-weight: 600;
@@ -207,16 +208,16 @@
   border-bottom: 2px solid var(--border-color);
 }
 
-.users-table tbody tr {
+.clients-table tbody tr {
   border-bottom: 1px solid var(--border-color);
   transition: background-color 0.2s;
 }
 
-.users-table tbody tr:hover {
+.clients-table tbody tr:hover {
   background-color: var(--bg-card-hover);
 }
 
-.users-table td {
+.clients-table td {
   padding: 16px;
   font-size: 14px;
   color: var(--text-primary);
@@ -237,10 +238,10 @@
   align-items: center;
   justify-content: center;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 16px;
 }
 
-.user-name-cell {
+.client-name {
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -256,24 +257,9 @@
   font-size: 13px;
 }
 
-.role-badge {
-  padding: 6px 12px;
-  border-radius: 12px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.role-badge.admin {
-  background: rgba(239, 83, 80, 0.2);
-  color: #ef5350;
-  border: 1px solid rgba(239, 83, 80, 0.3);
-}
-
-.role-badge.vendedor {
-  background: rgba(33, 150, 243, 0.2);
-  color: #2196f3;
-  border: 1px solid rgba(33, 150, 243, 0.3);
+.phone {
+  color: var(--text-secondary);
+  font-size: 13px;
 }
 
 .status-badge {
@@ -322,7 +308,7 @@
 }
 
 .action-btn.edit:hover {
-  background: var(--accent-blue);
+  background: var(--accent-blue-light);
 }
 
 .action-btn.delete {
