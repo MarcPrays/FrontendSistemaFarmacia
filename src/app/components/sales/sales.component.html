@@ -1,0 +1,118 @@
+<div class="sales-container">
+  <div class="sales-header">
+    <h1 class="page-title">Gestión de Ventas</h1>
+    <button class="new-sale-btn" (click)="newSale()">
+      <span>+</span> Nueva Venta
+    </button>
+  </div>
+
+  @if (showNewSaleForm) {
+    <div class="new-sale-form">
+      <h2>Nueva Venta</h2>
+      
+      <div class="form-group">
+        <label>Cliente</label>
+        <select [(ngModel)]="currentSale.client_id" class="form-control">
+          <option [value]="null">Seleccione un cliente</option>
+          @for (client of clients; track client.id) {
+            <option [value]="client.id">{{ client.first_name }} {{ client.last_name }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Productos</label>
+        <select (change)="addProductToSale(+$any($event.target).value)" class="form-control">
+          <option value="">Seleccione un producto</option>
+          @for (batch of batches; track batch.id) {
+            <option [value]="batch.id" [disabled]="batch.stock === 0">
+              Producto {{ batch.id }} - Stock: {{ batch.stock }} - Precio: ${{ batch.sale_price }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <div class="sale-details">
+        <h3>Detalles de la Venta</h3>
+        <table class="details-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio Unit.</th>
+              <th>Subtotal</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (detail of currentSale.details; track $index) {
+              <tr>
+                <td>{{ detail.productName }}</td>
+                <td>
+                  <input 
+                    type="number" 
+                    [value]="detail.quantity"
+                    (change)="updateQuantity($index, +$any($event.target).value)"
+                    min="1"
+                    class="quantity-input">
+                </td>
+                <td>${{ detail.unit_price.toFixed(2) }}</td>
+                <td>${{ detail.subtotal.toFixed(2) }}</td>
+                <td>
+                  <button (click)="removeProductFromSale($index)" class="remove-btn">🗑️</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <div class="sale-total">
+          <div class="total-row">
+            <span class="total-label">TOTAL:</span>
+            <span class="total-value">${{ currentSale.total.toFixed(2) }}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Método de Pago</label>
+          <select [(ngModel)]="currentSale.payment_method" class="form-control">
+            <option value="efectivo">Efectivo</option>
+            <option value="tarjeta">Tarjeta</option>
+            <option value="transferencia">Transferencia</option>
+          </select>
+        </div>
+
+        <div class="form-actions">
+          <button (click)="registerSale()" class="save-btn">Registrar Venta</button>
+          <button (click)="showNewSaleForm = false" class="cancel-btn">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="sales-history">
+    <h2>Historial de Ventas</h2>
+    <table class="sales-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cliente</th>
+          <th>Fecha</th>
+          <th>Total</th>
+          <th>Método de Pago</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (sale of sales; track sale.id) {
+          <tr>
+            <td>#{{ sale.id }}</td>
+            <td>{{ sale.client?.first_name }} {{ sale.client?.last_name }}</td>
+            <td>{{ sale.sale_date | date:'short' }}</td>
+            <td class="amount">${{ sale.total.toFixed(2) }}</td>
+            <td>{{ sale.payment_method }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
