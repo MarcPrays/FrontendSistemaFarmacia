@@ -78,7 +78,7 @@
             <td>
               <div class="product-image">
                 @if (product.image) {
-                  <img [src]="product.image" [alt]="product.name">
+                  <img [src]="getImageUrl(product.image)" [alt]="product.name" />
                 } @else {
                   <span class="image-placeholder">💊</span>
                 }
@@ -124,3 +124,11 @@
     </table>
   </div>
 </div>
+
+<app-product-form-modal
+  [isOpen]="showModal"
+  [mode]="modalMode"
+  [initialData]="selectedProductForEdit" 
+  (closeModal)="showModal = false"
+  (save)="onSaveProduct($event)">
+</app-product-form-modal>

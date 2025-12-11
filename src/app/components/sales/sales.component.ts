@@ -68,7 +68,7 @@ export class SalesComponent implements OnInit {
 
   addProductToSale(batchId: number) {
     const batch = this.batches.find(b => b.id === batchId);
-    if (!batch || batch.stock <= 0) return;
+    if (!batch || !batch.stock || batch.stock <= 0) return;
 
     const existing = this.currentSale.details.find(d => d.batch_id === batchId);
     if (existing) {
@@ -82,8 +82,8 @@ export class SalesComponent implements OnInit {
         sale_id: 0,
         batch_id: batchId,
         quantity: 1,
-        unit_price: batch.sale_price,
-        subtotal: batch.sale_price,
+        unit_price: batch.sale_price ?? 0,
+        subtotal: (batch.sale_price ?? 0),
         productName: `Producto ${batchId}` // En producción, obtener del producto
       });
     }
@@ -100,7 +100,7 @@ export class SalesComponent implements OnInit {
     const detail = this.currentSale.details[index];
     const batch = this.batches.find(b => b.id === detail.batch_id);
     
-    if (batch && quantity > 0 && quantity <= batch.stock) {
+    if (batch && batch.stock && quantity > 0 && quantity <= batch.stock) {
       detail.quantity = quantity;
       detail.subtotal = detail.quantity * detail.unit_price;
       this.calculateTotal();

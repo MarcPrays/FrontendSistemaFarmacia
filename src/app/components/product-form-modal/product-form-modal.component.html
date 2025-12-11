@@ -1,0 +1,113 @@
+@if (isOpen) {
+<div class="modal-overlay" (click)="onClose()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>
+                {{ mode === "create" ? "Crear Nuevo Producto" : "Editar Producto" }}
+            </h2>
+            <button class="close-btn" (click)="onClose()">✕</button>
+        </div>
+
+        <div class="modal-body">
+            <!-- Formulario de producto -->
+            <div class="form-group">
+                <label>Nombre *</label>
+                <input type="text" [(ngModel)]="productForm.name" required />
+            </div>
+
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea [(ngModel)]="productForm.description"></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Categoría *</label>
+                    <select [(ngModel)]="productForm.category_id">
+                        @for (cat of categories; track cat.id) {
+                        <option [value]="cat.id">{{ cat.name }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Presentación</label>
+                    <input type="text" [(ngModel)]="productForm.presentation" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Concentración</label>
+                    <input type="text" [(ngModel)]="productForm.concentration" />
+                </div>
+
+                <div class="form-group">
+                    <label>Imagen del producto</label>
+                    <!-- Vista previa de imagen existente -->
+                    @if (existingImageUrl) {
+                    <div class="image-preview">
+                        <img [src]="existingImageUrl" alt="Imagen actual" />
+                        <small>Imagen actual</small>
+                    </div>
+                    }
+
+                    <!-- Subir nueva imagen -->
+                    <input type="file" (change)="onImageSelected($event)" accept="image/jpeg,image/png,image/jpg">
+
+                    <!-- Vista previa de nueva imagen seleccionada -->
+                    @if (imagePreview) {
+                    <div class="image-preview">
+                        <img [src]="imagePreview" alt="Nueva vista previa" />
+                        <small>Nueva imagen (reemplazará la actual)</small>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Lotes -->
+            <div class="section-title">Lotes (Opcional)</div>
+            <div *ngFor="let batch of batches; let index = index" class="batch-group">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Fecha expiración</label>
+                        <input type="date" [(ngModel)]="batch.expiration_date" />
+                    </div>
+                    <div class="form-group">
+                        <label>Stock</label>
+                        <input type="number" [(ngModel)]="batch.stock" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Precio compra</label>
+                        <input type="number" step="0.01" [(ngModel)]="batch.purchase_price" />
+                    </div>
+                    <div class="form-group">
+                        <label>Precio venta</label>
+                        <input type="number" step="0.01" [(ngModel)]="batch.sale_price" />
+                    </div>
+                </div>
+                <ng-container *ngIf="batches.length > 1">
+                    <button type="button" class="remove-batch" (click)="removeBatchField(index)">
+                        🗑️ Eliminar lote
+                    </button>
+                </ng-container>
+            </div>
+
+            <button type="button" class="add-batch" (click)="addBatchField()">
+                + Agregar otro lote
+            </button>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn-cancel" (click)="onClose()">
+                Cancelar
+            </button>
+            <button type="button" class="btn-save" (click)="onSubmit()">
+                {{ mode === "create" ? "Crear Producto" : "Guardar Cambios" }}
+            </button>
+        </div>
+    </div>
+</div>
+}
