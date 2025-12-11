@@ -24,3 +24,4 @@ export interface Sale {
   details?: SalesDetail[];
 }
 
+
