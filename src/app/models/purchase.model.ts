@@ -24,3 +24,4 @@ export interface Purchase {
   details?: PurchaseDetail[];
 }
 
+

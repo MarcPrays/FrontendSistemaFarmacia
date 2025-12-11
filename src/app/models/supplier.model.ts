@@ -8,3 +8,4 @@ export interface Supplier {
   status: number;
 }
 
+

@@ -13,19 +13,28 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = authService.getToken();
 
   // Clonar la petición y agregar el header de autorización si existe token
+  // Preservar los headers existentes
   if (token) {
-    req = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    const headers = req.headers.set('Authorization', `Bearer ${token}`);
+    req = req.clone({ headers });
   }
 
   // Ejecutar la petición y manejar errores
   return next(req).pipe(
     catchError(error => {
+      // Log detallado para diagnóstico
+      if (error.status === 0 || !error.status) {
+        console.error('🔴 Error de conexión en interceptor:', {
+          url: req.url,
+          method: req.method,
+          hasToken: !!token,
+          error: error.message || error
+        });
+      }
+      
       // Si la petición retorna 401 (no autorizado), cerrar sesión
       if (error.status === 401) {
+        console.warn('⚠️ Error 401 - No autorizado, cerrando sesión');
         authService.logout();
         router.navigate(['/login']);
       }
@@ -33,4 +42,5 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     })
   );
 };
+
 
